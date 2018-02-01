@@ -7,17 +7,18 @@ public class TestScript : MonoBehaviour
 	private void Start()
 	{
 		initList();
-
-		Debug.Log(namMember[lstMember[cmp1][head1]]);
-		Debug.Log(namMember[lstMember[cmp2][head2]]);
+		showImage();
 	}
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.LeftArrow))
-			sortList(-1);
-		if (Input.GetKeyDown(KeyCode.RightArrow))
-			sortList(1);
+		if (finishFlag == 0)
+		{
+			if (Input.GetKeyDown(KeyCode.LeftArrow))
+				sortList(-1);
+			if (Input.GetKeyDown(KeyCode.RightArrow))
+				sortList(1);
+		}
 	}
 
 	string[] namMember = new string[]
@@ -25,20 +26,20 @@ public class TestScript : MonoBehaviour
 
 	"You Are In Love",
 	"Wonderland",
-	"New Romantics",
+	"New Romantics" /*,
 	"Welcome To New York",
 	"Blank Space",
 	"Style",
 	"Out Of The Woods",
 	"All You Had To Do Was Stay",
-	"Shake It Off",
+	"Shake It Off" ,
 	"I Wish You Would",
 	"Bad Blood",
 	"Wildest Dreams",
 	"How You Get The Girl",
 	"This Love",
 	"I Know Places",
-	"Clean"
+	"Clean" */
 	};
 
 	//*********************************************************
@@ -47,7 +48,7 @@ public class TestScript : MonoBehaviour
 
 	List<List<int>> lstMember = new List<List<int>>();
 	List<int> parent = new List<int>();
-	List<int> equal = new List<int>();
+	//List<int> equal = new List<int>();
 	List<int> rec = new List<int>();
 
 	int cmp1, cmp2;
@@ -144,7 +145,7 @@ public class TestScript : MonoBehaviour
 		for (i = 0; i <= namMember.Length; i++)
 		{
 
-			equal.Add(-1);
+			//equal.Add(-1);
 
 		}
 
@@ -168,15 +169,7 @@ public class TestScript : MonoBehaviour
 
 
 
-	//&#12522;&#12473;&#12488;&#12398;&#12477;&#12540;&#12488;+++++++++++++++++++++++++++++++++++++++++++
 
-	//flag&#65306;Don't know characters
-
-	// -1&#65306;Chose the left
-
-	// 0&#65306;Tie
-
-	// 1&#65306;Chose the right
 
 	public void sortList(int flag)
 	{
@@ -200,19 +193,6 @@ public class TestScript : MonoBehaviour
 
 			finishSize++;
 
-			while (equal[rec[nrec - 1]] != -1)
-			{
-
-				rec[nrec] = lstMember[cmp1][head1];
-
-				head1++;
-
-				nrec++;
-
-				finishSize++;
-
-			}
-
 		}
 
 		else if (flag > 0) // "Right Choice"
@@ -226,71 +206,12 @@ public class TestScript : MonoBehaviour
 
 			finishSize++;
 
-			while (equal[rec[nrec - 1]] != -1)
-			{
-
-				rec[nrec] = lstMember[cmp2][head2];
-
-				head2++;
-
-				nrec++;
-
-				finishSize++;
-
-			}
-
 		}
-
-		else // "Center Choice - Can't Decide"
+		else
 		{
-
-			rec[nrec] = lstMember[cmp1][head1];
-
-			head1++;
-
-			nrec++;
-
-			finishSize++;
-
-			while (equal[rec[nrec - 1]] != -1)
-			{
-
-				rec[nrec] = lstMember[cmp1][head1];
-
-				head1++;
-
-				nrec++;
-
-				finishSize++;
-
-			}
-
-			equal[rec[nrec - 1]] = lstMember[cmp2][head2];
-
-			rec[nrec] = lstMember[cmp2][head2];
-
-			head2++;
-
-			nrec++;
-
-			finishSize++;
-
-			while (equal[rec[nrec - 1]] != -1)
-			{
-
-				rec[nrec] = lstMember[cmp2][head2];
-
-				head2++;
-
-				nrec++;
-
-				finishSize++;
-
-			}
-
+			Debug.LogError("Invalid flag entered.");
+			return;
 		}
-
-
 
 		//Processing after finishing with one list
 
@@ -361,8 +282,7 @@ public class TestScript : MonoBehaviour
 
 			head2 = 0;
 
-
-
+	
 			//Initialize the rec before performing the new comparison
 
 			if (head1 == 0 && head2 == 0)
@@ -401,7 +321,7 @@ public class TestScript : MonoBehaviour
 		else
 		{
 
-			//showImage();
+			showImage();
 
 		}
 
@@ -417,7 +337,7 @@ public class TestScript : MonoBehaviour
 
 	public void showResult()
 	{
-
+		Debug.Log("SHOW RESULTS");
 		int ranking = 1;
 
 		int sameRank = 1;
@@ -425,14 +345,6 @@ public class TestScript : MonoBehaviour
 		string str = "";
 
 		int i;
-
-
-
-		str += "<table style=\"width:200px; font-size:18px; line-height:120%; margin-left:auto; margin-right:auto; border:1px solid #000; border-collapse:collapse\" align=\"center\">";
-
-		//str += "<tr><td style=\"color:#ffffff; background-color:#000; text-align:center;\">Rank<\/td><td style=\"color:#ffffff; background-color:#000; text-align:center;\">Song<\/td><\/tr>";
-
-
 
 		for (i = 0; i < namMember.Length; i++)
 		{
@@ -442,20 +354,17 @@ public class TestScript : MonoBehaviour
 			if (i < namMember.Length - 1)
 			{
 
-				if (equal[lstMember[0][i]] == lstMember[0][i + 1])
-				{
+				//if (equal[lstMember[0][i]] == lstMember[0][i + 1])
+				//{
 
-					sameRank++;
+				//	sameRank++;
 
-				}
-				else
-				{
+				//}
+				
 
-					ranking += sameRank;
-
-					sameRank = 1;
-
-				}
+				ranking += sameRank;
+				
+				sameRank = 1;
 
 			}
 
@@ -467,6 +376,13 @@ public class TestScript : MonoBehaviour
 
 		//document.getElementById("resultField").innerHTML = str;
 
+	}
+
+
+	public void showImage()
+	{
+		Debug.Log(numQuestion + ":  " + namMember[lstMember[cmp1][head1]] + " ||| " + namMember[lstMember[cmp2][head2]]);
+		numQuestion++;
 	}
 
 
