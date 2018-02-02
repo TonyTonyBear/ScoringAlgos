@@ -11,4 +11,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bdf47cf8f2a1c342974c2f68d6e5b15, type: 3}
   m_Name: TestModel
   m_EditorClassIdentifier: 
-  songNames: []
+  songNames:
+  - God Save Our Young Blood
+  - Faded Heart
+  - Sweet Dreams
+  - We Don't Care
+  - Man
+  - Iceberg
+  - Second Night of Summer
+  - I Don't Want U Back
+  - Tension (Interlude)
+  - Supernatural
+  - Blue Madonna
+  - Bye-bye Darling
