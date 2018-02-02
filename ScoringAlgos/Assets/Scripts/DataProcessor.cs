@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DataProcessor : MonoBehaviour {
 
 	#region Properties
 
 	public MatchData matchData; // Currently just an array of song names.
+	public View view;
 
 	private List<List<int>> songList = new List<List<int>>();
 	private List<int> listParent = new List<int>(); // Points to a prior list in songList that generated the songList with the same index as this.
@@ -57,7 +59,7 @@ public class DataProcessor : MonoBehaviour {
 	private void Start()
 	{
 		Initialize();
-		updateView();
+		UpdateView();
 	}
 
 	#endregion
@@ -222,14 +224,13 @@ public class DataProcessor : MonoBehaviour {
 		//If there's nothing left to compare, then the game's over.
 		if (comparer1 < 0)
 		{
-			showResult();
-
+			ShowResult();
 			isFinished = true;
 		}
 
 		else
 		{
-			updateView();
+			UpdateView();
 		}
 
 	}
@@ -238,29 +239,39 @@ public class DataProcessor : MonoBehaviour {
 
 	#region View Communication
 
-	private void showResult()
+	private void ShowResult()
 	{
 
-		int ranking = 1;
-		int sameRank = 1;
-		int i;
+		//Convert songList to names
+		List<string> finalList = new List<string>();
 
-		for (i = 0; i < matchData.songNames.Count; i++)
+		for(int i = 0; i < songList[0].Count; i++)
 		{
-			if (i < matchData.songNames.Count - 1)
-			{
-				ranking += sameRank;
-				sameRank = 1;
-			}
-
+			finalList.Add(NumToName(songList[0][i]));
 		}
+
+		view.ShowResults(finalList);
 	}
 
-	private void updateView()
+	private void UpdateView()
 	{
-		Debug.Log(questionNum + ":  " + matchData.songNames[songList[comparer1][head1]] + " ||| " + matchData.songNames[songList[comparer2][head2]]);
+		//Send off the name of the two questions, and the quesiton number.
+		view.UpdateMatchView(questionNum, NumToName(songList[comparer1][head1]), NumToName(songList[comparer2][head2]));
 		questionNum++;
 	}
 
 	#endregion
+
+	#region Helper Functions
+
+	/// <summary>
+	/// Converts a songList value to it's name in songNames.
+	/// </summary>
+	/// <returns></returns>
+	private string NumToName(int num)
+	{
+		return matchData.songNames[num];
+	}
+
+#endregion
 }
